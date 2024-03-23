@@ -9,7 +9,7 @@ import {JwtModule} from "@nestjs/jwt";
     imports: [
         BullModule.registerQueue({ name: 'user-history' }),
         JwtModule.register({
-            secret: 'secret'
+            secret: process.env.JWT_SECRET,
         }),
     ],
     controllers: [CurrencyConversionController],

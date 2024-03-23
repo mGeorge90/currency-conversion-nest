@@ -3,12 +3,13 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from './users.service';
 import {UsersController} from "./users.controller";
+import * as process from "process";
 
 @Module({
     imports: [
         JwtModule.register({
-            secret: 'secret', // Replace with your actual secret key
-            signOptions: { expiresIn: '24h' }, // Customize expiration as needed
+            secret: process.env.JWT_SECRET,
+            signOptions: { expiresIn: '24h' },
         }),
     ],
     providers: [UsersService],
