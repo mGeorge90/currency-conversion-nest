@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mongodb1:
+    image: mongo
+    container_name: mongodb1
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data1:/data/db
+    command: ["--replSet", "rs0"]
+
+  mongodb2:
+    image: mongo
+    container_name: mongodb2
+    restart: always
+    volumes:
+      - mongodb_data2:/data/db
+    command: ["--replSet", "rs0"]
+
+  mongodb3:
+    image: mongo
+    container_name: mongodb3
+    restart: always
+    volumes:
+      - mongodb_data3:/data/db
+    command: ["--replSet", "rs0"]
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+
+  nestjs:
+    build: .
+    container_name: nestjs
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongodb1
+      - mongodb2
+      - mongodb3
+      - redis
+
+volumes:
+  mongodb_data1:
+  mongodb_data2:
+  mongodb_data3:
